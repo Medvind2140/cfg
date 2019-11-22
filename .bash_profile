@@ -1,0 +1,1 @@
+/Users/f/dotfiles/.bash_profile
