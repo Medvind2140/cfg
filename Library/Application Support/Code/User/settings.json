@@ -48,13 +48,12 @@
     "vs-kubernetes": {
         "vs-kubernetes.minikube-path": "/Users/f/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
         "vs-kubernetes.helm-path": "/Users/f/.vs-kubernetes/tools/helm/darwin-amd64/helm",
-        "vs-kubernetes.kubectl-path": "/Users/f/.vs-kubernetes/tools/kubectl/kubectl",
-        "vs-kubernetes.draft-path": "/Users/f/.vs-kubernetes/tools/draft/darwin-amd64/draft"
+        "vs-kubernetes.kubectl-path": "/Users/f/.vs-kubernetes/tools/kubectl/kubectl"
     },
     "explorer.confirmDragAndDrop": false,
     "terminal.integrated.fontFamily": "Meslo LG M DZ for Powerline",
-    "terminal.integrated.fontSize": 14,
-    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 11,
+    "editor.fontSize": 11,
     "workbench.colorCustomizations": {
         "terminalCursor.foreground": "#00ff00",
     },

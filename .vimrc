@@ -24,10 +24,10 @@
 "endif
 
 " get syntax highlighting
-let mysyntaxfile = "$VIM/mysyntax/mysyntax.vim"
-syntax on
-au BufRead,BufNewFile * set filetype=bare
-au! Syntax bare source $VIM/bare.vim
+"let mysyntaxfile = "$VIM/mysyntax/mysyntax.vim"
+"syntax on
+"au BufRead,BufNewFile * set filetype=bare
+"au! Syntax bare source $VIM/bare.vim
 
 "HIGHLIGHT SEARCH + CLEAR
 	set hlsearch
