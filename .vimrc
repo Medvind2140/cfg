@@ -1,11 +1,12 @@
 "MAIN SETTINGS
 "--------------------------------------
-	set expandtab
 	set tabstop=2
 	set shiftwidth=2
+	"set expandtab
 	set number
+	set rnu
+	
 	set cc=80
-
 	set wrap
 	set tw=80
 	set breakindent
@@ -17,17 +18,6 @@
 	set paste
 	set foldmethod=manual
 	let mapleader =' '
-
-"AUTO WORDWRAP
-"if has('autocmd')
-"  au BufRead,BufNewFile *.txt set wm=2 tw=80
-"endif
-
-" get syntax highlighting
-"let mysyntaxfile = "$VIM/mysyntax/mysyntax.vim"
-"syntax on
-"au BufRead,BufNewFile * set filetype=bare
-"au! Syntax bare source $VIM/bare.vim
 
 "HIGHLIGHT SEARCH + CLEAR
 	set hlsearch
@@ -56,6 +46,9 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 "PLUGIN SETTINGS
 "--------------------------------------
 
+"EMMET
+	let g:user_emmet_leader_key=','
+
 "NERDTREE
 	let NERDTreeQuitOnOpen=1
 
@@ -79,41 +72,83 @@ let g:ale_linters = {
 	\ 'react': ['eslint']
 	\}
 	let g:ale_fixers = {
-	\	'javascript': ['prettier', 'eslint']
+	\	'javascript': ['prettier', 'eslint'],
+	\	'json': ['prettier', 'eslint'],
+	\	'css': ['prettier', 'eslint'],
+	\	'html': ['prettier', 'eslint'],
+	\	'jsx': ['prettier', 'eslint']
 	\}
-	let g:ale_completion_enabled = 0
+	let g:ale_completion_enabled = 1
 	let g:ale_fix_on_save = 1
 	let g:ale_lint_on_enter = 0
 	let g:airline#extensions#ale#enabled = 1
 
+"VIM-javascript
+autocmd BufEnter * :syntax sync fromstart
+	let g:javascript_plugin_jsdoc = 1
 "AIRLINE
 	let g:airline_extensions = []
 
 "SOLARIZED
 	set background=dark
 	colorscheme solarized8_high
-	
-"PLUGINS 
+
+"CODI
+let g:codi#interpreters = {
+  \ 'javascript': {
+     \ 'rightalign': 0,
+  \ },
+\ }
+let g:codi#width = 52.0  
+
+"PRETTIER - FORMATTERS
+"au FileType javascript setlocal formatprg=prettier
+"au FileType javascript.jsx setlocal formatprg=prettier
+"au FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+"au FileType html setlocal formatprg=js-beautify\ --type\ html
+"au FileType scss setlocal formatprg=prettier\ --parser\ css
+"au FileType css setlocal formatprg=prettier\ --parser\ css
+"nnoremap <F5> mzgggqG`z
+
+"LANGUAGE SERVER
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio']
+\ }
+
+nnoremap <leader>l :call LanguageClient_contextMenu()<CR>
+nnoremap K :call LanguageClient#textDocument_hover()<CR>
+nnoremap gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>r :call LanguageClient#textDocument_rename()<CR>
+
+
+"-- PLUGINS 
 	call plug#begin('~/.vim/plugged')
+"		Plug 'neoclide/coc.nvim', {'branch': 'release'}
+		Plug 'metakirby5/codi.vim' 
+		Plug 'mattn/emmet-vim'
 		Plug 'vim-airline/vim-airline'
+		Plug 'airblade/vim-gitgutter'
 		Plug 'junegunn/vim-easy-align'
-		Plug 'scrooloose/nerdtree'
 		Plug 'terryma/vim-multiple-cursors'
+		Plug 'jiangmiao/auto-pairs'
+		Plug 'tpope/vim-commentary'
 		Plug 'tpope/vim-obsession'
-		Plug 'tpope/vim-surround'
 		Plug 'w0rp/ale'
-"		Plug 'prettier/prettier'
-"		Plug 'mattn/emmet-vim'
-		Plug 'pangloss/vim-javascript'
-		Plug 'mxw/vim-jsx'	
+		Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+		Plug 'scrooloose/nerdtree'
 		Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+		Plug 'junegunn/fzf.vim'
+"		Plug 'yuezk/vim-js'
+"		Plug 'maxmellon/vim-jsx-pretty'
+"		Plug 'tpope/vim-surround'
+"		Plug 'pangloss/vim-javascript'
+"		Plug 'mxw/vim-jsx'	
 "		Plug 'SirVer/ultisnips'
 "		Plug 'honza/vim-snippets'		
 	call plug#end()
 
-"CUSTOMIZATION
-"--------------------------------------
 
+"-- CUSTOMIZATION --
 "NUMBERED TABS
 fu! MyTabLabel(n)
 let buflist = tabpagebuflist(a:n)
@@ -170,3 +205,6 @@ endfunction
 set foldtext=NeatFoldText()
 " }}}2
 
+
+"COC
+"autocmd FileType json syntax match Comment +\/\/.\+$+

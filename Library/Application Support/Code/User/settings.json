@@ -6,7 +6,6 @@
     "window.zoomLevel": 0,
     "explorer.confirmDelete": false,
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "workbench.colorTheme": "Solarized Dark",
     "files.autoSave": "afterDelay",
     "vim.foldfix": true,
     "sync.gist": "92c8e87d7ad12d3b1322a47d61cd7810",
@@ -52,8 +51,8 @@
     },
     "explorer.confirmDragAndDrop": false,
     "terminal.integrated.fontFamily": "Meslo LG M DZ for Powerline",
-    "terminal.integrated.fontSize": 11,
-    "editor.fontSize": 11,
+    "terminal.integrated.fontSize": 14,
+    "editor.fontSize": 14,
     "workbench.colorCustomizations": {
         "terminalCursor.foreground": "#00ff00",
     },
@@ -64,5 +63,14 @@
     ],
  */
     "editor.smoothScrolling": true,
-    "editor.hover.enabled": false
+    "editor.hover.enabled": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.colorTheme": "Solarized Dark",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "cosmosDB.showSavePrompt": false,
+    "gitlens.views.repositories.files.layout": "tree"
 }
