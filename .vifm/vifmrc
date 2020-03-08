@@ -1,0 +1,40 @@
+
+colorscheme solarized-dark
+
+set vicmd=nvim
+
+set nohlsearch
+set incsearch
+
+set scrolloff=8
+set nowrap
+
+set history=100
+
+
+fileview */ tree %c -L 3
+view
+
+command! mkcd :mkdir %a | cd %a
+command! vi nvim %a
+command! gs !!git status
+command! gb !!git branch
+command! gl !!git vlog
+command! ga !!git adds
+command! gr !!git reset
+command! gcom !!git commit -m "%a"
+command! gchk !!git checkout %a 
+
+nnoremap <silent> b :bmark %d<cr>
+nnoremap <silent> . :bmarks<cr>
+nnoremap <silent> w :view<cr>
+vnoremap <silent> w :view<cr>gv
+
+nnoremap <silent> s :shell<cr>
+nnoremap <silent> S :sort<cr>
+
+set vifminfo=bookmarks,bmarks,dhistory,savedirs
+
+set suggestoptions=normal,visual,view,otherpane,delay,keys,registers,marks
+
+filetype *.html,*.htm
