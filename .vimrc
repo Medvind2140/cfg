@@ -16,7 +16,7 @@ set undodir=~/.vim/undodir
 set undofile
 
 " Centralized swapfiles
-set directory^=$HOME/.vim/swapfiles//
+set directory=~/.vim/swapfiles
 
 " System clipboard as default clipboard
 set clipboard=unnamed
