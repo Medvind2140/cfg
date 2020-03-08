@@ -1,5 +1,5 @@
 {
-    "editor.minimap.enabled": false,
+    "editor.minimap.enabled": true,
     "emmet.triggerExpansionOnTab": true,
     "go.useLanguageServer": true,
     "editor.tabSize": 2,
@@ -66,11 +66,12 @@
     "editor.hover.enabled": false,
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "workbench.colorTheme": "Solarized Dark",
     "editor.formatOnPaste": false,
     "editor.formatOnType": false,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "cosmosDB.showSavePrompt": false,
-    "gitlens.views.repositories.files.layout": "tree"
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "Solarized Dark",
+    "prettier.semi": false
 }

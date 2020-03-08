@@ -10,7 +10,8 @@
 [alias]
 [alias]
 	vlog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=relative --graph
-
+	b = branch
+	c = checkout
 # ! = treated as a shell command
 	adds = !git add -A && git status
 	s =!git status

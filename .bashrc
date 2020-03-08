@@ -13,10 +13,10 @@ export GPG_TTY
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [ -f /Users/f/Desktop/dev/serverless-app/node_modules/tabtab/.completions/slss.bash ] && . /Users/f/Desktop/dev/serverless-app/node_modules/tabtab/.completions/slss.bash
 export NVM_DIR="$HOME/.nvm"
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion.d" ] && \. "$NVM_DIR/bash_completion.d"  # This loads nvm bash_completion
 
 
 # DOTFILES GIT-CONFIG METHOD
 alias config='/usr/bin/git --git-dir=/Users/f/.cfg --work-tree=/Users/f'
-
