@@ -6,9 +6,9 @@
 
 
 "### SETTINGS
-set expandtab
 set tabstop=2
 set shiftwidth=2
+set expandtab
 set cursorline
 
 " Persisten undo
@@ -39,17 +39,33 @@ let mapleader =' '
 
 set autoread
 
+" ### AUTO PAIR
+let g:AutoPairsOnlyWhitespace = 1
+let g:AutoPairsShortcutToggle = '<C-l>'
+execute "normal! \<C-l>"
+"### TRICKS
+"Quickly select the text that was just pasted. gV replaces `[v`]
+noremap gV `[v`]  
+" gV replaces `[v`]
+
+"Yank to end of line
+noremap Y y$
+"Jump to end of line in Insert mode
+inoremap <C-u> <C-o>$
+
+"* AutoExpanding
+" inoremap (; (<CR>);<C-c>O
+" inoremap (, (<CR>),<C-c>O
+" inoremap {; {<CR>};<C-c>O
+" inoremap {, {<CR>},<C-c>O
+" inoremap [; [<CR>];<C-c>O
+" inoremap [, [<CR>],<C-c>O
+
 "### KEYMAPS
 map <C-l> :NERDTreeToggle<CR>
 map <C-f> :Find<CR>
 map <C-t> :FZF<CR>
 nnoremap <leadermv ddGp``
-
-
-"### COLORS
-set background=dark
-colorscheme solarized8_high
-".vim/syntact/nolang.vim
 
 
 "### FILETYPES
@@ -115,17 +131,22 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <tab> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<tab>"
-else
-  imap <expr> <tab> pumvisible() ? "\<C-y>" : "\<C-g>u\<tab>"
-endif
+" if has('patch8.1.1068')
+"   " Use `complete_info` if your (Neo)Vim version supports it.
+"   inoremap <expr> <tab> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<tab>"
+" else
+"   imap <expr> <tab> pumvisible() ? "\<C-y>" : "\<C-g>u\<tab>"
+" endif
+
+"SNIPPETS
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -242,7 +263,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 "Custom snippets
-"let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
+" let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
 " Also install web-api 
 
 
@@ -325,4 +346,12 @@ fu! MyTabLine()
 endfu
 set tabline=%!MyTabLine()
 
+
+"### COLORS
+set background=dark
+colorscheme solarized8_high
+hi Normal ctermbg=234
+hi CursorLine ctermbg=236
+hi Folded ctermbg=237
+".vim/syntact/nolang.vim
 "

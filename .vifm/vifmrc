@@ -1,6 +1,5 @@
 
 colorscheme solarized-dark
-
 set vicmd=nvim
 
 set nohlsearch
@@ -11,9 +10,10 @@ set nowrap
 
 set history=100
 
-
 fileview */ tree %c -L 3
 view
+
+25 wincmd -
 
 command! mkcd :mkdir %a | cd %a
 command! vi nvim %a
@@ -25,6 +25,7 @@ command! gr !!git reset
 command! gcom !!git commit -m "%a"
 command! gchk !!git checkout %a 
 
+nnoremap <silent> q :q<cr>
 nnoremap <silent> b :bmark %d<cr>
 nnoremap <silent> . :bmarks<cr>
 nnoremap <silent> w :view<cr>

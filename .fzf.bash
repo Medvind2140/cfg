@@ -3,7 +3,6 @@
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
   export PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
 fi
-
 # OPTIONS
 export FZF_DEFAULT_OPTS='--inline-info --height 40% --layout=reverse --border'
 export FZF_COMPLETION_OPTS='+c -x'

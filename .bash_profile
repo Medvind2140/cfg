@@ -50,9 +50,11 @@ fi
 		export LSCOLORS=Hxfxcxdxbxegedabagacad
 		alias ls='ls -GFh'
  
-#	 export PS1="[\u@\h \W]\$(git_branch)\$ "
+	#	Show Git Branch?
+ 	# export PS1="[\u@\h \W]\$(git_branch)\$ "
 
-# source ~/.git-completion.bash
+# GIT COMPLETION
+source ~/.git-completion.bash
 
 # INIT COMPLETION
 if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
@@ -82,8 +84,8 @@ mkc () { mkdir -p "$1" && cd "$1"; }
 del () { command mv "$@" ~/.Trash; }
 cdl () { cd $1 && ls -al | more ; }
 
-# FUZZY RIPGREP, ANYFILE, FILE OR FILE > CONTENT, OPEN IN VIM
-rgl () {
+### RLD: fuzzy ripgrep, learn, anyfile, file or file > content, open in vim
+rld () {
 	cd ~/Desktop/_sync/learn/dev
 	local str=$2
 	local file=$1
@@ -113,9 +115,8 @@ rgl () {
 	cd -
 }
 
-# FUZZY RIPGREP, CONTENT IN ANYFILE, OPEN IN VIM
-rgs () {
-	cd ~/Desktop/_sync/
+### RGV: fuzzy ripgrep, content in anyfile, open in vim
+rgv () {
   local file
   local line
   read -r file line <<<"$(rg --smart-case --vimgrep $@ | fzf -0 -1 | awk -F: '{print $1, $2}')"
@@ -123,10 +124,9 @@ rgs () {
   then
      nvim $file +"$line|norm! zv zz"
   fi
-	cd -
 }
 
-# VIFM EXIT TO ORIGIN FOLDER
+### V: vifmvist exit to origin folder
 vifmVisit() {
 	local dst="$(command vifm --choose-dir - "$@")"
 	if [ -z "$dst" ]; then
@@ -135,7 +135,7 @@ vifmVisit() {
 	fi
 }
 
-# VIFM EXIT TO DEST FOLDER
+### VD: vifm exit to dest folder
 vifmDest() {
 	local dst="$(command vifm --choose-dir - "$@")"
 	if [ -z "$dst" ]; then
@@ -144,3 +144,13 @@ vifmDest() {
 	fi
 	cd "$dst"
 }
+### VIM
+	vm()	{
+	local file=$1
+	file=`ls | fzf`
+	if [ -z "$file" ]; then
+		echo "stop"
+	else
+		nvim $file
+	fi
+	}
