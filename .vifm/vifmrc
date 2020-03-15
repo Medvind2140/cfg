@@ -13,7 +13,7 @@ set history=100
 fileview */ tree %c -L 3
 view
 
-25 wincmd -
+15 wincmd -
 
 command! mkcd :mkdir %a | cd %a
 command! vi nvim %a

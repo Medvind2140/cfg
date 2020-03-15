@@ -26,7 +26,6 @@ set relativenumber
 set number
 
 set cc=80
-
 set wrap
 set tw=80
 set breakindent
@@ -39,10 +38,22 @@ let mapleader =' '
 
 set autoread
 
+"CURSOR
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
+"### KEYMAPS
+map <C-l> :NERDTreeToggle<CR>
+map <C-f> :Find<CR>
+map <C-t> :FZF<CR>
+nnoremap <leadermv ddGp``
+
 " ### AUTO PAIR
 let g:AutoPairsOnlyWhitespace = 1
-let g:AutoPairsShortcutToggle = '<C-l>'
-execute "normal! \<C-l>"
+let g:AutoPairsShortcutToggle = '<C-p>'
+
+
 "### TRICKS
 "Quickly select the text that was just pasted. gV replaces `[v`]
 noremap gV `[v`]  
@@ -61,11 +72,6 @@ inoremap <C-u> <C-o>$
 " inoremap [; [<CR>];<C-c>O
 " inoremap [, [<CR>],<C-c>O
 
-"### KEYMAPS
-map <C-l> :NERDTreeToggle<CR>
-map <C-f> :Find<CR>
-map <C-t> :FZF<CR>
-nnoremap <leadermv ddGp``
 
 
 "### FILETYPES
@@ -75,8 +81,8 @@ au! BufRead,BufNewFile *.html setfiletype html
 "### PLUGINS
 call plug#begin('~/.vim/plugged')
 " WORK FASTER
-"  Plug 'scrooloose/nerdtree'
-  Plug 'tpope/vim-vinegar'
+Plug 'scrooloose/nerdtree'
+"  Plug 'tpope/vim-vinegar'
   Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-obsession'
@@ -87,8 +93,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'tpope/vim-surround'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'junegunn/vim-easy-align'
+  " Plug 'jiangmiao/auto-pairs'
+
+Plug 'junegunn/vim-easy-align'
 " CODE QUALITY
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'tpope/vim-fugitive'
