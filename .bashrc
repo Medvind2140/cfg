@@ -18,4 +18,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion.d" ] && \. "$NVM_DIR/bash_completion.d"  # This loads nvm bash_completion
 
 # DOTFILES GIT-CONFIG METHOD
-alias config='/usr/bin/git --git-dir=/Users/f/.cfg --work-tree=/Users/f'
+# alias config='/usr/bin/git --git-dir=/Users/f/.cfg --work-tree=/Users/f'

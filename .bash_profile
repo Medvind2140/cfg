@@ -13,9 +13,6 @@ if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
 
-# VIM KEYS IN TERMINAL (NEEDED FOR FZF CTRL+T COMPLETION TO WORK)
-set -o vi
-                                       
 # PREVENT COMMAND LOGGING IN FILE
 unset HISTFILE
 
