@@ -15,7 +15,7 @@
   alias .eslintrc='nvim ~/.eslintrc'
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
   alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-  alias dots='config dots && config commit -m \"dots\" && config push'
+  alias dots='config dots && config commit -m $1 && config push'
 
 # WRITE
   alias notes="vim ~/d/NOTES.md"
