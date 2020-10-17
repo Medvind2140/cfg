@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+    ],
+    "overrides" : [
+      {
+        "files": ["**/*.js"],
+        "rules": {
+          "react/prop-types": "off"
+        }
+      }
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 6,
+        "sourceType": "module",
+    },
+
+    "rules": {
+      "semi": ["error", "never"],
+      "quotes": ["error", "single"],
+      "space-in-parens": ["error", "never"],
+      "object-curly-spacing": ["error", "always"],
+      "react/display-name": [0, { "ignoreTranspilerName": true }]
+    },
+
+}
