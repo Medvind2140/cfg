@@ -9,11 +9,12 @@ set scrolloff=8
 set nowrap
 
 set history=100
-
-fileview */ tree %c -L 3
-view
+set dotfiles
 
 15 wincmd -
+fileview */ tree %c -L 2
+view
+
 
 command! mkcd :mkdir %a | cd %a
 command! vi nvim %a
