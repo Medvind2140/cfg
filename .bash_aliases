@@ -16,6 +16,15 @@
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
   alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
   alias dots='config dots && config commit -m "dots" && config push'
+  # atlassian
+  # echo ".cfg" >> .gitignore_global
+  # git clone --bare <repo urgl> $HOME/.cfg
+  # config config -local status.showUntracketFiles no 
+  # config status
+  # config add .vimrc 
+  # config commit -m "added"
+  # config push
+
 
 # WRITE
   alias notes="vim ~/d/NOTES.md"
@@ -88,16 +97,15 @@
 
 # GIT
   alias g='git'
-  alias gi='touch .gitignore && echo "node_modules" >> .gitignore'
+  alias gi='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && echo "created .gitignore"'
   alias gs='git status'
   alias gl='git log'
   alias gbl='git branch -l'
   alias gb='git checkout $(git branch | fzf) | ls'
   alias gcb='git checkout -b'
   alias gadd='git add .'
-
   alias gcom='git add . && git commit -m'
-  alias ginit='echo "node_modules" >> .gitignore && git init && git add . && git commit -m "Initial" && git checkout -b "test" && git log --decorate'
+  alias ginit='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && git init && git add . && git commit -m "Initial commit" && git checkout -b "test" && git log --decorate'
   alias grm='rm .gitignore && rm -rf .git'
 
 # KUBERNETES
@@ -117,12 +125,12 @@
   alias kgs="kubectl get svc"
   alias ki="kubectl cluster-info"
 
-# OTHERS
+# OTHER
   alias sbash='source ~/.bash_profile'
   alias h='htop'
   alias t="tig"
   alias tl="tig reflog"
-  alias zz='zsh'
+  alias z='zsh'
   alias vars="set | sed -n 148,158p"
 
 # FUNCTIONS

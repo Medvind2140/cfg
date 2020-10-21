@@ -1,4 +1,3 @@
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # Allow piping GPG
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -17,5 +16,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion.d" ] && \. "$NVM_DIR/bash_completion.d"  # This loads nvm bash_completion
 
-# DOTFILES GIT-CONFIG METHOD
-# alias config='/usr/bin/git --git-dir=/Users/f/.cfg --work-tree=/Users/f'
