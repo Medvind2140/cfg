@@ -226,8 +226,8 @@ fl () {
   # fi
   # }
 
-mkc () { mkdir -p "$1" && cd "$1"; }
+mdc () { mkdir -p "$1" && cd "$1"; }
 del () { command mv "$@" ~/.Trash; }
-cdl () { cd $1 && ls -al | more ; }
+dcl () { cd $1 && ls -al | more ; }
 
 
