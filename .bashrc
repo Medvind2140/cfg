@@ -16,3 +16,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion.d" ] && \. "$NVM_DIR/bash_completion.d"  # This loads nvm bash_completion
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,4 +1,4 @@
-# WHAT?
+# 
   complete -F __start_docker d
 	complete -F __start_kubectl k
 
@@ -33,7 +33,13 @@
   alias vi='nvim'
   alias todo='nvim ~/Desktop/_sync/notes/TODO'
 
-# NAV 
+# NAV
+  # kill -9 + tab = list processes to kill
+  # ctrl+t = list files from current directory 
+  # cd ctrl+r = FZF list last cd commands
+  # cd ~/**+tab = list files from root directory
+  # ssh, unset, export, unalias
+
   alias ..='cd ..'
   alias .2='cd ../../'
   alias .3='cd ../../../'
@@ -64,22 +70,63 @@
   alias vwrite='vv ~/Desktop/_sync/write'
 
 # MANAGE
-  alias rm='rm -i'
-  alias c="pbcopy"
-  alias swap='v ~/.vim/swapfiles/'
-  alias swapr='rm -f ~/.vim/swapfiles/*.*'
+alias rm='rm -i'
+alias c="pbcopy"
+alias swap='v ~/.vim/swapfiles/'
+alias swapr='rm -f ~/.vim/swapfiles/*.*'
+mkcd () { mkdir -p "$1" && cd "$1"; }
+del () { command mv "$@" ~/.Trash; }
+dcl () { cd $1 && ls -al | more ; }
 
 # DOCKER
   alias d="docker"
   alias dc="docker container"
   alias dco="docker-compose"
   alias dcoe="docker-compose exec app /bin/bash"
-  alias dcr="docker rm -f"
-  alias di="docker images"
-  alias dma="docker-machine"
-  alias dn="docker network"
-  alias dps="docker ps -a -n9 --format 'table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
+  alias di="docker image"
   alias dv="docker volume"
+  alias dn="docker network"
+  alias dps="docker ps -a -n9 --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
+  alias dma="docker-machine"
+
+## DIL: LIST IMAGES BETTER
+dil() {
+  docker image ls | awk '{printf "%-13s %-7s %-10s %s\n", $3, $7, $2, "| " $1}' | sed 1d
+}
+
+## DIR: RUN IMAGE
+dir() {
+  local cid
+  cid=$(docker images -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+  [ -n "$cid" ] && docker run --detach "$cid"
+}
+## DIRM: REMOVE IMAGES
+dirm() {
+  docker images | sed 1d | fzf -m | awk '{print $3}' | xargs docker rmi
+}
+
+## DCS: START CONTAINERS
+dcs() {
+  docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container start
+} 
+## DCST: STOP RUNNING CONTAINERS
+dcst() {
+  docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop
+}
+## DCRM: REMOVE STOPPED CONTAINERS
+dcrm() {
+  docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container rm
+}
+
+## DCSR: STOP RUNNING CONTAINERS AND REMOVE THEM
+dcsr() {
+  docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop | xargs docker container rm
+}
+
+## DVRM: REMOVE VOLUMES
+dvrm() {
+  docker volume ls | sed 1d | fzf -m | awk '{print $2}' | xargs docker volume rm
+}
 
 # CODE
   alias eslint="./node_modules/.bin/eslint"
@@ -133,7 +180,7 @@
   alias z='zsh'
   alias vars="set | sed -n 148,158p"
 
-# FUNCTIONS
+# FIND
 ### ff
 ff () {
     local str=$2
@@ -226,8 +273,8 @@ fl () {
   # fi
   # }
 
-mdc () { mkdir -p "$1" && cd "$1"; }
-del () { command mv "$@" ~/.Trash; }
-dcl () { cd $1 && ls -al | more ; }
+
+# LOGS
+ alias l="lnav"
 
 

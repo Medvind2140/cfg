@@ -42,8 +42,8 @@
   set formatoptions-=o
 
   "AUTOWRAP INSERT MODE
-  set textwidth=80
-  set wrapmargin=0
+  " set textwidth=80
+  " set wrapmargin=0
   " set wrap
 
   "WINDOW+PANE 
