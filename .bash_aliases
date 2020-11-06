@@ -235,12 +235,12 @@ dcsr() {
   alias p1='ssh -p22 $p2 -o VisualHostKey=yes'
   alias p2='ssh -p22 $p1 -o VisualHostKey=yes'
 
-  # copy aliases permanently in a new ssh session.
+  # scp. = copy aliases permanently in a new ssh session.
   function scp.() {
     scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1:
   }
 
-  # copy aliases temporary in a new ssh session.
+  # ssh. = copy aliases temporary in a new ssh session.
   function ssh.() {
     scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1: 
     ssh -t $1 "bash --rcfile ~/.bash_aliases; mv vifmrc .vifm/ ;rm ~/.bash_aliases ~/.vimrc"
