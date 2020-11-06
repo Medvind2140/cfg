@@ -15,18 +15,22 @@ complete -F __start_kubectl k
   alias .v='nvim ~/.vimrc'
   alias .eslintrc='nvim ~/.eslintrc'
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
-  # Alwasy stay in home folder: cd
+  # DOTFILES BACKUP > GITHUB
+  # Atlassian
+  # Track only manually added files
+  # Always stay in home folder as it works as your git folder 
   # "config" alias works as "git"
-  alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-  alias dots='config dots && config commit -m "dots" && config push'
-  # atlassian
+
   # echo ".cfg" >> .gitignore_global
   # git clone --bare <repo urgl> $HOME/.cfg
   # config config -local status.showUntracketFiles no 
+  #
   # config status
-  # config add .vimrc // -< NOTE add updates invidiually do not use "."
+  # config add -u  // NOTE to add a new tracked file/folder, do it individually
   # config commit -m "added"
   # config push
+  alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+  alias dots='config dots && config commit -m "dots" && config push'
 
 
 # WRITE
@@ -54,16 +58,14 @@ complete -F __start_kubectl k
   alias aaa='echo a:$a && echo b:$b'
   alias bb='export b=$(pwd) && echo $b'
   alias fp='ps aux | fzf'
-  alias vl='vv ~/Desktop/_sync/learn' 
   alias vld='vv ~/Desktop/_sync/learn/dev' 
-  alias vd='vv ~/d'
   alias vdt='vv ~/d/t'
   alias vds='vv ~/d/st'
+  alias cld='cd ~/Desktop/_sync/learn/dev'
   alias cdt='cd ~/d/t'
-  alias cds='cd ~/d/st'
-  alias cl='cd ~/Desktop/_sync/learn' 
-  alias v='vpipe'
-  alias vv='vpipe .'
+  alias cds='cd ~/d/st' 
+  alias v='vpipe .'
+  alias vv='vpipe '
   alias vview='vv ~/.vim/view'
 ### vpipe: access from current shell folder, exit from last vifm folder
   vpipe() {
