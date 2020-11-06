@@ -232,11 +232,8 @@ dcsr() {
   }
 
   # connect to devices
-  alias p1='ssh -p22 pi@12.23.98.227 -o VisualHostKey=yes'
-  alias p2='ssh -p22 ubuntu@12.23.98.250 -o VisualHostKey=yes'
-  # stored ssh address
-  export p1="pi@12.23.98.227"
-  export p2="ubuntu@12.23.98.250"
+  alias p1='ssh -p22 $p2 -o VisualHostKey=yes'
+  alias p2='ssh -p22 $p1 -o VisualHostKey=yes'
 
   # copy aliases permanently in a new ssh session.
   function scp.() {
