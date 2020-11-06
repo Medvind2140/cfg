@@ -6,6 +6,8 @@
 	ui = true
 [core]
 	exludesfile = /Users/f/.gitignore_global
+	quotepath = false
+	commitGraph = true
 [alias]
 [alias]
 [alias]
@@ -24,3 +26,5 @@
 
 [push]
 	default = current
+[gc]
+	writeCommitGraph = true

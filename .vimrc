@@ -8,7 +8,6 @@
   set tabstop=2
   set shiftwidth=2
   set expandtab
-  set cursorline
 
   "PERSISTEN UNDO
   set undodir=~/.vim/undodir
@@ -23,6 +22,7 @@
   "LINE NUMBERS
   set number
   set relativenumber
+  set cursorline
 
   "OTHERS
   set laststatus=2
@@ -43,8 +43,8 @@
 
   "AUTOWRAP INSERT MODE
   " set textwidth=80
-  " set wrapmargin=0
-  " set wrap
+  set wrapmargin=0
+  set wrap
 
   "WINDOW+PANE 
   " let g:tmux_navigator_no_mappings = 1

@@ -1,17 +1,18 @@
-# 
-  complete -F __start_docker d
-	complete -F __start_kubectl k
+complete -F __start_docker d
+complete -F __start_kubectl k
 
 # DOTFILES
-  alias .alias='nvim ~/.bash_aliases'
+  alias .sa='nvim ~/.ssh/.bash_aliases'
+  alias .sv='nvim ~/.ssh/.vimrc'
+  alias .a='nvim ~/.bash_aliases'
   alias .profile='nvim ~/.bash_profile'
-  alias .bashrc='nvim ~/.bashrc'
+  alias .b='nvim ~/.bashrc'
   alias .zshrc='nvim ~/.zshrc'
   alias .fzf='nvim ~/.fzf.bash'
   alias .gitconfig='nvim ~/.gitconfig'
   alias .tmux='nvim ~/.tmux.conf'
   alias .vifmrc='nvim ~/.vifm/vifmrc'
-  alias .vimrc='nvim ~/.vimrc'
+  alias .v='nvim ~/.vimrc'
   alias .eslintrc='nvim ~/.eslintrc'
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
   alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -27,8 +28,8 @@
 
 
 # WRITE
-  alias notes="vim ~/d/NOTES.md"
-  alias no="cat <<EOT >> ~/d/NOTES.md"
+  alias notes='vim ~/d/NOTES.md'
+  alias no='cat <<EOT >> ~/d/NOTES.md'
   alias hab='nvim ~/Desktop/_sync/notes/HABITS'
   alias vi='nvim'
   alias todo='nvim ~/Desktop/_sync/notes/TODO'
@@ -59,9 +60,18 @@
   alias cdt='cd ~/d/t'
   alias cds='cd ~/d/st'
   alias cl='cd ~/Desktop/_sync/learn' 
-  alias v='vpipe .'
-  alias vv='vpipe'
+  alias v='vpipe'
+  alias vv='vpipe .'
   alias vview='vv ~/.vim/view'
+### vpipe: access from current shell folder, exit from last vifm folder
+  vpipe() {
+    local dst="$(command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]; then
+      echo 'directory picking cancelled/failed'
+      return 1
+    fi
+    cd $dst
+  }
   alias vfam='vv ~/Desktop/_sync/fam'
   alias vfin='vv ~/Desktop/_sync/fin'
   alias vide='vv ~/Desktop/_sync/ideas'
@@ -70,25 +80,39 @@
   alias vwrite='vv ~/Desktop/_sync/write'
 
 # MANAGE
+alias cc='fc -ln -1 | pbcopy'
 alias rm='rm -i'
-alias c="pbcopy"
+alias co='copy'
 alias swap='v ~/.vim/swapfiles/'
 alias swapr='rm -f ~/.vim/swapfiles/*.*'
-mkcd () { mkdir -p "$1" && cd "$1"; }
-del () { command mv "$@" ~/.Trash; }
-dcl () { cd $1 && ls -al | more ; }
+function mkc () { mkdir -p "$1" && cd "$1"; }
+function del () { command mv "$@" ~/.Trash; }
+function dcl () { cd $1 && ls -al | more ; }
+
+## COPY PREV COMMAND TO CLIPBOARD
+pb () { echo "$@" | pbcopy; }
+  # $ history (identify line ni)
+  # $  !221
+  # $  old command (press enter to copy to clipboard)
+  # - Past in vim...
 
 # DOCKER
   alias d="docker"
   alias dc="docker container"
-  alias dco="docker-compose"
-  alias dcoe="docker-compose exec app /bin/bash"
+  alias dca="docker container attach"
+  alias doc="docker-compose"
+  alias doce="docker-compose exec app /bin/bash"
   alias di="docker image"
   alias dv="docker volume"
   alias dn="docker network"
-  alias dps="docker ps -a -n9 --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
-  alias dma="docker-machine"
-
+  alias dncr="docker network create"
+  alias dnc="docker network connect"
+  alias dnd="docker network disconnect"
+  alias dni="docker network inspect"
+  alias dps="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
+  alias dm="docker-machine"
+  alias dip="di inspect --format='{{.ContainerConfig.ExposedPorts}}' $1"
+  alias dall="dil && dps && dvl && dnl"
 ## DIL: LIST IMAGES BETTER
 dil() {
   docker image ls | awk '{printf "%-13s %-7s %-10s %s\n", $3, $7, $2, "| " $1}' | sed 1d
@@ -102,7 +126,32 @@ dir() {
 }
 ## DIRM: REMOVE IMAGES
 dirm() {
-  docker images | sed 1d | fzf -m | awk '{print $3}' | xargs docker rmi
+  docker images | sed 1d | fzf -m | awk '{print $3}' | xargs docker rmi -f
+}
+
+## DVL: LIST VOLUMES
+dvl() {
+  docker volume ls
+}
+
+## DVRM: REMOVE VOLUMES
+dvrm() {
+  docker volume ls | sed 1d | fzf -m | awk '{print $2}' | xargs docker volume rm
+}
+
+## DNL: LIST NETWORKS
+dnl() {
+  docker network ls
+}
+
+## DNRM: REMOVE NETWORKS
+dnrm() {
+  docker network ls | sed 1d | fzf -m | awk '{print $1}' | xargs docker network rm
+}
+
+## DS: DOCKER STATS
+ds() {
+  docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker stats
 }
 
 ## DCS: START CONTAINERS
@@ -114,18 +163,13 @@ dcst() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop
 }
 ## DCRM: REMOVE STOPPED CONTAINERS
-dcrm() {
+function dcrm() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container rm
 }
 
 ## DCSR: STOP RUNNING CONTAINERS AND REMOVE THEM
 dcsr() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop | xargs docker container rm
-}
-
-## DVRM: REMOVE VOLUMES
-dvrm() {
-  docker volume ls | sed 1d | fzf -m | awk '{print $2}' | xargs docker volume rm
 }
 
 # CODE
@@ -154,8 +198,50 @@ dvrm() {
   alias gcom='git add . && git commit -m'
   alias ginit='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && git init && git add . && git commit -m "Initial commit" && git checkout -b "test" && git log --decorate'
   alias grm='rm .gitignore && rm -rf .git'
+# REMOTE SSH
+  alias p1='ssh -p22 pi@12.23.98.227'
+  alias p2='ssh -p22 ubuntu@12.23.98.250'
+  export p1="pi@12.23.98.227"
+  export p2="ubuntu@12.23.98.250"
+
+## COPY ALIASES PERMANENTLY IN A NEW SSH SESSION.
+  function scp.() {
+    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1:
+  }
+
+## COPY ALIASES TEMPORARY IN A NEW SSH SESSION.
+  function ssh.() {
+    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1: 
+    ssh -t $1 "bash --rcfile ~/.bash_aliases; mv vifmrc .vifm/ ;rm ~/.bash_aliases ~/.vimrc"
+  }
+
+## STOP SSH AGENT
+  function ssh0() {
+    if [ -z $SSH_AGENT_PID ]
+      then
+        echo "no SSH agent running"
+
+        else
+        kill -KILL $SSH_AGENT_PID
+        echo "$SSH_AGENT_PID ssh-agent is now stopped"
+    fi
+  }
+
+
+## START SSH AGENT 
+  function ssh1 () {
+    if ps -p $SSH_AGENT_PID > /dev/null
+      then 
+        echo "$SSH_AGENT_PID ssh-agent is already running"
+       # Do something knowing the pid exists, i.e. the process with $PID is running
+        else
+      eval `ssh-agent -s`
+    fi
+  }
 
 # KUBERNETES
+  alias h="helm"
+  alias m="minikube"
   alias k="kubectl"
   alias ka="kubectl api-resources"
   alias kc="kubectl config"
@@ -167,19 +253,29 @@ dvrm() {
   alias kgd="kubectl get deploy"
   alias kgi="kubectl get ing"
   alias kgn="kubectl get no"
+  # get namespaces
   alias kgns="kubectl get ns"
   alias kgp="kubectl get pod"
   alias kgs="kubectl get svc"
   alias ki="kubectl cluster-info"
 
+## kgnsp: GET NAMESPACES PODS
+kgnsp() {
+  kgns | sed 1d | fzf -m | awk '{print $1}' | kubectl --namespace $1 get pods
+} 
 # OTHER
+  alias lessn='less -N'
   alias sbash='source ~/.bash_profile'
-  alias h='htop'
-  alias t="tig"
-  alias tl="tig reflog"
+  alias ht='htop'
+  alias t='tig'
+  alias tl='tig reflog'
   alias z='zsh'
-  alias vars="set | sed -n 148,158p"
-
+  alias vars='set | sed -n 148,158p'
+  alias qf='fortune ~/quotes | cowsay'
+  function qff(){
+    vi ~/quotes;
+    strfile ~/quotes;
+  }
 # FIND
 ### ff
 ff () {
@@ -253,15 +349,6 @@ fl () {
     fi
   }
 
-### v: access from current shell folder, exit from last vifm folder
-  vpipe() {
-    local dst="$(command vifm --choose-dir - "$@")"
-    if [ -z "$dst" ]; then
-      echo 'directory picking cancelled/failed'
-      return 1
-    fi
-    cd $dst
-  }
 ### fv: search current folder with fzf, open in vim
   # fv()	{
   # local file=$1
@@ -275,6 +362,4 @@ fl () {
 
 
 # LOGS
- alias l="lnav"
-
-
+ alias l='lnav'

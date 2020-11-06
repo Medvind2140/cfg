@@ -40,7 +40,7 @@ export NVM_DIR="$HOME/.nvm"
 if [ -f $(brew --prefix)/etc/bash_completion.d ]; then
 	. $(brew --prefix)/etc/bash_completion.d
 fi
- [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+ # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # PATHS
 # export CDPATH=".:~:~/Desktop:~/Desktop/dev:~/Desktop/_sync/"

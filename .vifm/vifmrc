@@ -1,4 +1,3 @@
-
 colorscheme solarized-dark
 set vicmd=nvim
 
@@ -12,19 +11,11 @@ set history=100
 set dotfiles
 
 15 wincmd -
-fileview */ tree %c -L 2
+fileview */ tree %c -L 1
 view
 
-
 command! mkcd :mkdir %a | cd %a
-command! vi nvim %a
-command! gs !!git status
-command! gb !!git branch
-command! gl !!git vlog
-command! ga !!git adds
-command! gr !!git reset
-command! gcom !!git commit -m "%a"
-command! gchk !!git checkout %a 
+command! vi vi %a
 
 nnoremap <silent> q :q<cr>
 nnoremap <silent> b :bmark %d<cr>
@@ -39,4 +30,3 @@ set vifminfo=bookmarks,bmarks,dhistory,savedirs
 
 set suggestoptions=normal,visual,view,otherpane,delay,keys,registers,marks
 
-filetype *.html,*.htm
