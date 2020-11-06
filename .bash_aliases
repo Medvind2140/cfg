@@ -15,6 +15,8 @@ complete -F __start_kubectl k
   alias .v='nvim ~/.vimrc'
   alias .eslintrc='nvim ~/.eslintrc'
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
+  # Alwasy stay in home folder: cd
+  # "config" alias works as "git"
   alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
   alias dots='config dots && config commit -m "dots" && config push'
   # atlassian
@@ -22,7 +24,7 @@ complete -F __start_kubectl k
   # git clone --bare <repo urgl> $HOME/.cfg
   # config config -local status.showUntracketFiles no 
   # config status
-  # config add .vimrc 
+  # config add .vimrc // -< NOTE add updates invidiually do not use "."
   # config commit -m "added"
   # config push
 

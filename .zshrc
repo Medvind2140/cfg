@@ -84,6 +84,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   docker
+  docker-compose
+  docker-machine
+  kubectl
+  postgres
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -120,3 +124,6 @@ source ~/.bash_aliases
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+### Fix for Docker Plugin to work
+autoload -U compinit && compinit
