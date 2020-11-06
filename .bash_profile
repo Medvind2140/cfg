@@ -1,4 +1,4 @@
-# START BASH IN TMUX
+# START WITH TMUX AT BASH STARTUP
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 	exec tmux
   # exec zsh
@@ -13,14 +13,16 @@ if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
 
+# INIT .PROFILE
+if [ -f ~/.profile ]; then
+  . ~/.profile
+fi
+
 # PREVENT COMMAND LOGGING IN FILE
 unset HISTFILE
 
 # PREVENT FILE-OVERWRITES WITH APPEND
 set -o noclobber
-
-# SSH-AGENT
-# { eval `ssh-agent`; ssh-add -A; } &>/dev/null
 
 # NVM
 export NVM_DIR="$HOME/.nvm"

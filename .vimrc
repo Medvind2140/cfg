@@ -1,9 +1,11 @@
+
 "### TODO
   "Automatic filedetection off new .html files without using "set ft=html".
   "Taglist
   "Own snippets
 
 "### SETTINGS
+  set nocp
   "TABS
   set tabstop=2
   set shiftwidth=2

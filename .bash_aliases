@@ -202,45 +202,51 @@ dcsr() {
   alias gcom='git add . && git commit -m'
   alias ginit='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && git init && git add . && git commit -m "Initial commit" && git checkout -b "test" && git log --decorate'
   alias grm='rm .gitignore && rm -rf .git'
+
 # REMOTE SSH
-  alias p1='ssh -p22 pi@12.23.98.227'
-  alias p2='ssh -p22 ubuntu@12.23.98.250'
+  # list keys
+  alias vk='vv ~/.ssh'
+  # View list of keys used to access servers
+  alias keys='ssh-keygen -lv -f ~/.ssh/known_hosts | less'
+  # list active keys
+  alias keya='for key in ~/.ssh/id_*; do ssh-keygen -l -f "${key}"; done | uniq'
+  # config keys
+  alias keyc='vi ~/.ssh/config'
+  # list agents
+  alias agents="ps aux | grep ssh-agent | awk '/\?\?/{print $1;}'"
+  # agent0 = stop ALL ssh agents
+  function agent0() {
+    kill -9 $( ps ax | grep ssh-agent | awk '/\?\?/{print $1;}')
+    agents 
+    echo "All agents and $SSH_AGENT_PID ssh-agent is now stopped"
+  }
+
+  # agent1 = start ssh agent 
+  function agent1 () {
+    if ps -p $SSH_AGENT_PID > /dev/null
+      then 
+        echo "$SSH_AGENT_PID ssh-agent is already running"
+        else
+      eval `ssh-agent -s`
+    fi
+  }
+
+  # connect to devices
+  alias p1='ssh -p22 pi@12.23.98.227 -o VisualHostKey=yes'
+  alias p2='ssh -p22 ubuntu@12.23.98.250 -o VisualHostKey=yes'
+  # stored ssh address
   export p1="pi@12.23.98.227"
   export p2="ubuntu@12.23.98.250"
 
-## COPY ALIASES PERMANENTLY IN A NEW SSH SESSION.
+  # copy aliases permanently in a new ssh session.
   function scp.() {
     scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1:
   }
 
-## COPY ALIASES TEMPORARY IN A NEW SSH SESSION.
+  # copy aliases temporary in a new ssh session.
   function ssh.() {
     scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1: 
     ssh -t $1 "bash --rcfile ~/.bash_aliases; mv vifmrc .vifm/ ;rm ~/.bash_aliases ~/.vimrc"
-  }
-
-## STOP SSH AGENT
-  function ssh0() {
-    if [ -z $SSH_AGENT_PID ]
-      then
-        echo "no SSH agent running"
-
-        else
-        kill -KILL $SSH_AGENT_PID
-        echo "$SSH_AGENT_PID ssh-agent is now stopped"
-    fi
-  }
-
-
-## START SSH AGENT 
-  function ssh1 () {
-    if ps -p $SSH_AGENT_PID > /dev/null
-      then 
-        echo "$SSH_AGENT_PID ssh-agent is already running"
-       # Do something knowing the pid exists, i.e. the process with $PID is running
-        else
-      eval `ssh-agent -s`
-    fi
   }
 
 # KUBERNETES
