@@ -1,0 +1,209 @@
+"### MAIN SETTINGS
+set expandtab
+set tabstop=2
+set shiftwidth=2
+
+set relativenumber
+set number
+
+set cc=80
+
+set wrap
+set tw=80
+set breakindent
+let &showbreak=' '
+
+set laststatus=2
+set clipboard=unnamed
+set bs=2
+set foldmethod=manual
+let mapleader =' '
+
+"### KEYMAPS
+map <C-l> :NERDTreeToggle<CR>
+map <C-t> :FZF<CR>
+nnoremap <leadermv ddGp``
+
+"### SOLARIZED
+set background=dark
+colorscheme solarized8_high
+
+"# PLUGINS
+call plug#begin('~/.vim/plugged')
+  Plug 'vim-airline/vim-airline'
+  Plug 'tpope/vim-commentary'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-obsession'
+  Plug 'mattn/emmet-vim'
+  Plug 'scrooloose/nerdtree'
+  Plug 'junegunn/fzf', { 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
+	Plug 'dense-analysis/ale'
+call plug#end()
+
+"### ALE
+	"let g:ale_linters = {
+	" \	'javascript': ['eslint'],
+	" \ 'react': ['eslint'],
+	" \	'typescript': ['eslint'],
+	" \}
+
+let g:ale_fixers = {
+	\	'*': ['remove_trailing_lines', 'trim_whitespace'],
+	\	'javascript': ['prettier', 'eslint'],
+	\	'react': ['prettier', 'eslint'],
+	\	'typescript': ['prettier', 'eslint'],
+	\	'html': ['prettier'],
+	\	'css': ['prettier'],
+	\	'json': ['prettier'],
+	\	'yaml': ['prettier'],
+\}
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:airline#extensions#ale#enabled = 1
+let g:airline_extensions = []
+
+let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+
+
+"### NERDTREE
+let g:NERDTreeQuitOnOpen=1
+let g:NERDTreeIfnore= ['^node_modules$']
+
+"### FZF
+"" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+" ctrl+t
+" c
+
+
+"### EASY-ALIGN (ga, ctrl+x)
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+" shift+v, <select>, ga, ctrl+x, //
+" shift+v, <select>, ga, ctrl+l, 8, <enter><enter>, *|
+
+
+"### MULTIPLE CURSORS (vip, ctrl+n)
+"* Find first word with 'w', visual select next, skip next, change word, write
+"   fw, ctrl+n, ctrl+x, c, <new text>
+"* Visual select paragrap, insert cursors, insert text
+"   vip, ctrl+n, i
+"* Column to Row Aray (days=["man","tir","ons"])
+"   write rows, vip, ctrl+n, gJ, i, <"xxx",>, esc-esc, r, $, ], I, days=[
+
+
+"### OBSESSION
+"Remeer windows, folds etc
+":mksession
+"in Session.vim
+
+
+"### SURROUND (ys, cs, ds)
+" ( [ { < = b a r t
+" p=paragrap, w=word
+"new surround of word: ysiw, "
+"new surround two next word: ys2w, "
+"new surround to end of line: ys$, "
+"change surrounds of word: cs, ", <h1>
+"delete surround of word: ds, "
+"new surrounds of line: yss, )
+"repeat for next line: ., )
+"new surrounds of line over/after: ySS, )
+
+
+"# CUSTOMIZATION
+"NUMBERED TABS
+"fu! MyTabLabel(n)
+"	let buflist = tabpagebuflist(a:n)
+"	let winnr = tabpagewinnr(a:n)
+"	let string = fnamemodify(bufname(buflist[winnr - 1]), ':t')
+"	return empty(string) ? '[unnamed]' : string
+"endfu
+"fu! MyTabLine()
+"	let s = ''
+"	for i in range(tabpagenr('$'))
+"		"select the highlighting
+"		if i + 1 == tabpagenr()
+"			let s .= '%#TabLineSel#'
+"		else
+"			let s .= '%#TabLine#'
+"    endif
+"    " set the tab page number (for mouse clicks)
+"    let s .= '%' . (i + 1) . 'T'
+"    " display tabnumber (for use with <count>gt, etc)
+"    let s .= ' '. (i+1) . ' '
+"    " the label is made by MyTabLabel()
+"    let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+"    if i+1 < tabpagenr('$')
+"			let s .= ' |'
+"    endif
+"	endfor
+"	return s
+"endfu
+"set tabline=%!MyTabLine()
+
+
+"REMEMBER FOLDS
+autocmd BufWrite * mkview
+autocmd BufRead * silent! loadview
+
+"BETTER FOLD TEXT
+ fu! NeatFoldText() "{{{2
+   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+   let lines_count = v:foldend - v:foldstart + 1
+   let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+   let foldchar = matchstr(&fillchars, 'fold:\zs.')
+   let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+   let foldtextend = lines_count_text . repeat(foldchar, 8)
+   let foldtextlength = strlen(substitute(foldtextstart . foldtextend , '.', 'x', 'g')) + &foldcolumn
+   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+ endfu
+ set foldtext=NeatFoldText()
+ " }}}2
+
+
+"NUMBERED TABS
+fu! MyTabLabel(n)
+	let buflist = tabpagebuflist(a:n)
+	let winnr = tabpagewinnr(a:n)
+	let string = fnamemodify(bufname(buflist[winnr - 1]), ':t')
+	return empty(string) ? '[unnamed]' : string
+endfu
+fu! MyTabLine()
+	let s = ''
+	for i in range(tabpagenr('$'))
+		"select the highlighting
+    if i + 1 == tabpagenr()
+    let s .= '%#TabLineSel#'
+    else
+    let s .= '%#TabLine#'
+    endif
+    " set the tab page number (for mouse clicks)
+    "let s .= '%' . (i + 1) . 'T'
+    " display tabnumber (for use with <count>gt, etc)
+    let s .= ' '. (i+1) . ' '
+    " the label is made by MyTabLabel()
+    let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+    if i+1 < tabpagenr('$')
+			let s .= ' |'
+    endif
+	endfor
+	return s
+endfu
+set tabline=%!MyTabLine()
+
+
+"

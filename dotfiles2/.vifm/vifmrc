@@ -1,0 +1,29 @@
+colorscheme solarized-dark
+
+set vicmd=nvim
+
+set nohlsearch
+set incsearch
+
+set scrolloff=8
+set nowrap
+
+set viewcolumns=-80%{name}
+fileview */ tree %c -L 2
+view
+
+command! mkcd :mkdir %a | cd %a
+
+nnoremap <silent> b :bmark %d<cr>
+nnoremap <silent> . :bmarks<cr>
+nnoremap <silent> w :view<cr>
+vnoremap <silent> w :view<cr>gv
+
+nnoremap <silent> s :shell<cr>
+nnoremap <silent> S :sort<cr>
+
+set vifminfo=bookmarks,bmarks,dhistory,savedirs
+
+set suggestoptions=normal,visual,view,otherpane,delay,keys,registers,marks
+
+filetype *.html,*.htm
