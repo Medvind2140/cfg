@@ -2,8 +2,8 @@ complete -F __start_docker d
 complete -F __start_kubectl k
 
 # DOTFILES
-  alias .sa='nvim ~/.ssh/.bash_aliases'
-  alias .sv='nvim ~/.ssh/.vimrc'
+  alias .as='nvim ~/.ssh/.bash_aliases'
+  alias .vs='nvim ~/.ssh/.vimrc'
   alias .a='nvim ~/.bash_aliases'
   alias .profile='nvim ~/.bash_profile'
   alias .b='nvim ~/.bashrc'
@@ -84,7 +84,6 @@ complete -F __start_kubectl k
   alias vwrite='vv ~/Desktop/_sync/write'
 
 # MANAGE
-alias cc='fc -ln -1 | pbcopy'
 alias rm='rm -i'
 alias co='copy'
 alias swap='v ~/.vim/swapfiles/'
@@ -205,24 +204,26 @@ dcsr() {
 
 # REMOTE SSH
   # list keys
-  alias vk='vv ~/.ssh'
-  # View list of keys used to access servers
-  alias keys='ssh-keygen -lv -f ~/.ssh/known_hosts | less'
-  # list active keys
-  alias keya='for key in ~/.ssh/id_*; do ssh-keygen -l -f "${key}"; done | uniq'
-  # config keys
-  alias keyc='vi ~/.ssh/config'
+  alias vs='vv ~/.ssh'
+  # View signatures of remote hosts
+  alias ssk='ssh-keygen -lv -f ~/.ssh/known_hosts | less'
+  # list unique keys
+  alias ssu='for key in ~/.ssh/id_*; do ssh-keygen -l -f "${key}"; done | uniq'
+  # ssh config
+  alias ssc='vi ~/.ssh/config'
   # list agents
-  alias agents="ps aux | grep ssh-agent | awk '/\?\?/{print $1;}'"
+  alias ssa="ps aux | grep ssh-agent | awk '/\?\?/{print $1;}'"
+  # add ips
+  alias ips="source ~/.ssh/./ips"
   # agent0 = stop ALL ssh agents
-  function agent0() {
+  function ss0() {
     kill -9 $( ps ax | grep ssh-agent | awk '/\?\?/{print $1;}')
     agents 
     echo "All agents and $SSH_AGENT_PID ssh-agent is now stopped"
   }
 
   # agent1 = start ssh agent 
-  function agent1 () {
+  function ss1 () {
     if ps -p $SSH_AGENT_PID > /dev/null
       then 
         echo "$SSH_AGENT_PID ssh-agent is already running"
@@ -231,18 +232,15 @@ dcsr() {
     fi
   }
 
-  # connect to devices
-  alias p1='ssh -p22 $p2 -o VisualHostKey=yes'
-  alias p2='ssh -p22 $p1 -o VisualHostKey=yes'
 
   # scp. = copy aliases permanently in a new ssh session.
   function scp.() {
-    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1:
+    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc ~/.ssh/vifmrc $1:
   }
 
   # ssh. = copy aliases temporary in a new ssh session.
   function ssh.() {
-    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc $1: 
+    scp ~/.ssh/.bash_aliases ~/.ssh/.vimrc ~/.ssh/vifmrc $1: 
     ssh -t $1 "bash --rcfile ~/.bash_aliases; mv vifmrc .vifm/ ;rm ~/.bash_aliases ~/.vimrc"
   }
 
