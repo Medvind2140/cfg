@@ -137,6 +137,8 @@ dvl() {
   docker volume ls
 }
 
+## DVlC: LIST VOLUMES BELONGING TO WHICH CONTAINERS
+
 ## DVRM: REMOVE VOLUMES
 dvrm() {
   docker volume ls | sed 1d | fzf -m | awk '{print $2}' | xargs docker volume rm
