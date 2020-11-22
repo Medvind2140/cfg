@@ -127,3 +127,5 @@ source ~/.bash_aliases
 
 ### Fix for Docker Plugin to work
 autoload -U compinit && compinit
+
+source /Users/f/.config/broot/launcher/bash/br

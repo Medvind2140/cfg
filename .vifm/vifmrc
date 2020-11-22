@@ -13,8 +13,9 @@ set dotfiles
 15 wincmd -
 fileview */ tree %c -L 1
 view
+fileviewer *.html,*.go,*.css,*.tsx,*.js highlight -O xterm256 -s solarized-dark %c
 
-command! mkcd :mkdir %a | cd %a
+command! mcd :mkdir %a | cd %a
 command! vi vi %a
 
 nnoremap <silent> q :q<cr>

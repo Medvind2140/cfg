@@ -1,11 +1,12 @@
-
 "### TODO
   "Automatic filedetection off new .html files without using "set ft=html".
   "Taglist
   "Own snippets
 
 "### SETTINGS
+  "ENSURE NORMAL VIM MODE
   set nocp
+
   "TABS
   set tabstop=2
   set shiftwidth=2
@@ -26,10 +27,19 @@
   set relativenumber
   set cursorline
 
-  "OTHERS
+  "VIEW FULL PATH OF FILE"
+  set statusline+=%F
+
+  "STATUS LINE ON
   set laststatus=2
+
+  "DELETE
   set backspace=2
+
+  "LEADERKEY FOR CUSTOM SHORTCUTS
   let mapleader =' '
+
+  "RELOAD IF FILE CHANGES ON DISK
   set autoread
 
   "FOLDING
@@ -63,15 +73,15 @@
   " autocmd Filetype * AnyFoldActivate
   " set foldlevel=0
 
-  " CURSOR
+  "CURSOR
   " let &t_SR.="\e[4 q" "SR = REPLACE mode
   " let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
     
-  " ### AUTO PAIR
+  "AUTO PAIR
   " let g:AutoPairsOnlyWhitespace = 1
   " let g:AutoPairsShortcutToggle = '<C-p>'
 
-  "### KEYMAPS
+"### KEYMAPS
   map <C-a> :NERDTreeToggle<CR>
   map <C-s>w :FZFRg<CR>
   map <C-s>f :FZFFiles<CR>
@@ -79,7 +89,6 @@
   map <C-s>c :FZFCommits<CR>
   nnoremap <leadermv ddGp``
 
-  
 "### TRICKS
   "Quickly select the text that was just pasted. gV replaces `[v`]
   noremap gV `[v`]  
@@ -96,33 +105,65 @@
 
 " ### PLUGINS
   call plug#begin('~/.vim/plugged')
+
   " WORK FASTER
   Plug 'scrooloose/nerdtree'
     let NERDTreeQuitOnOpen=1
   Plug 'christoomey/vim-tmux-navigator'
 
-  " Plug 'tpope/vim-vinegar'
+  "Plug 'tpope/vim-vinegar'
   Plug 'junegunn/fzf', { 'do': './install --bin' }
   Plug 'junegunn/fzf.vim'
     let g:fzf_command_prefix = 'FZF'  
   Plug 'tpope/vim-obsession'
   Plug 'vim-airline/vim-airline'
-  " Plug 'pseewald/vim-anyfold'
-  " Plug 'tpope/vim-eunuch'
+  "Plug 'pseewald/vim-anyfold'
+  "Plug 'tpope/vim-eunuch'
 
-  "CODE FASTER
+  " CODE FASTER
   Plug 'mattn/emmet-vim'
   Plug 'tpope/vim-commentary'
-  " select, gc to toggle comment/uncomment
+    "select, gc to toggle comment/uncomment
   Plug 'terryma/vim-multiple-cursors'
   Plug 'tpope/vim-surround'
-  " Plug 'jiangmiao/auto-pairs'
+  "Plug 'jiangmiao/auto-pairs'
   Plug 'junegunn/vim-easy-align'
+  "Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippet'
 
   " CODE QUALITY
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  let g:coc_global_extensions = [
+    \ 'coc-tsserver'
+    \ ]
   Plug 'tpope/vim-fugitive'
+
+  " SYNTAX HIGHLIGHTING"
+  Plug 'pangloss/vim-javascript'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  Plug 'jparise/vim-graphql'
+  Plug 'maxmellon/vim-jsx-pretty'
   call plug#end()
+
+" ### SYNTAX HIGHLIGHTING: RESCAN BUFFER FROM START
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+" ### COC: SNIPPETS
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+" Snippets are located in ~/.config/coc/ultisnips/
 
 " ### COC
   " TextEdit might fail if hidden is not set.

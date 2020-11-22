@@ -15,7 +15,7 @@ complete -F __start_kubectl k
   alias .v='nvim ~/.vimrc'
   alias .eslintrc='nvim ~/.eslintrc'
   alias .vsc='nvim ~/Library/Application\ Support/Code/User/settings.json'
-  # DOTFILES BACKUP > GITHUB
+# DOTFILES BACKUP > GITHUB
   # Atlassian
   # Track only manually added files
   # Always stay in home folder as it works as your git folder 
@@ -40,20 +40,22 @@ complete -F __start_kubectl k
   alias vi='nvim'
   alias todo='nvim ~/Desktop/_sync/notes/TODO'
 
+# INFO
+alias is="cat /proc/device-tree/model"
+
 # NAV
   # kill -9 + tab = list processes to kill
   # ctrl+t = list files from current directory 
   # cd ctrl+r = FZF list last cd commands
   # cd ~/**+tab = list files from root directory
   # ssh, unset, export, unalias
-
   alias ..='cd ..'
   alias .2='cd ../../'
   alias .3='cd ../../../'
   alias .4='cd ../../../../'
   alias la='ls -a'
-  alias ll='ls -l'
-  alias ld='ls -d .?*'
+  alias ll='ls -al'
+  alias ld='ls -d */'
   alias aa='export a=$(pwd) && echo $a'
   alias aaa='echo a:$a && echo b:$b'
   alias bb='export b=$(pwd) && echo $b'
@@ -66,6 +68,7 @@ complete -F __start_kubectl k
   alias cds='cd ~/d/st' 
   alias v='vpipe .'
   alias vv='vpipe '
+  alias vs='vv ~/.ssh/'
   alias vview='vv ~/.vim/view'
 ### vpipe: access from current shell folder, exit from last vifm folder
   vpipe() {
@@ -88,7 +91,7 @@ alias rm='rm -i'
 alias co='copy'
 alias swap='v ~/.vim/swapfiles/'
 alias swapr='rm -f ~/.vim/swapfiles/*.*'
-function mkc () { mkdir -p "$1" && cd "$1"; }
+function mcd () { mkdir -p "$1" && cd "$1"; }
 function del () { command mv "$@" ~/.Trash; }
 function dcl () { cd $1 && ls -al | more ; }
 
@@ -193,7 +196,8 @@ dcsr() {
 
 # GIT
   alias g='git'
-  alias gi='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && echo "created .gitignore"'
+  alias gitignore='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && echo "created .gitignore"'
+  alias gdc='git diff --cached' 
   alias gs='git status'
   alias gl='git log'
   alias gbl='git branch -l'
@@ -204,7 +208,7 @@ dcsr() {
   alias ginit='touch .gitignore && echo -e "node_modules \ndist \n*.log \n" >> .gitignore && git init && git add . && git commit -m "Initial commit" && git checkout -b "test" && git log --decorate'
   alias grm='rm .gitignore && rm -rf .git'
 
-# REMOTE SSH
+# SSH
   # list keys
   alias vs='vv ~/.ssh'
   # View signatures of remote hosts
@@ -246,6 +250,8 @@ dcsr() {
     ssh -t $1 "bash --rcfile ~/.bash_aliases; mv vifmrc .vifm/ ;rm ~/.bash_aliases ~/.vimrc"
   }
 
+  alias up="bin/upload.sh"
+
 # KUBERNETES
   alias h="helm"
   alias m="minikube"
@@ -270,6 +276,7 @@ dcsr() {
 kgnsp() {
   kgns | sed 1d | fzf -m | awk '{print $1}' | kubectl --namespace $1 get pods
 } 
+
 # OTHER
   alias lessn='less -N'
   alias sbash='source ~/.bash_profile'
@@ -283,6 +290,7 @@ kgnsp() {
     vi ~/quotes;
     strfile ~/quotes;
   }
+
 # FIND
 ### ff
 ff () {
@@ -368,5 +376,9 @@ fl () {
   # }
 
 
+
+
 # LOGS
  alias l='lnav'
+
+

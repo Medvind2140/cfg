@@ -48,3 +48,5 @@ fi
 # export CDPATH=".:~:~/Desktop:~/Desktop/dev:~/Desktop/_sync/"
 export PATH="/usr/local/bin:/usr/local/:/bin:/usr/bin:/usr/sbin:/sbin:/Users/f/.fzf/bin:/Users/f/Library/Python/3.7/bin:/usr/local/lib/node_modules"
 
+
+source /Users/f/.config/broot/launcher/bash/br
