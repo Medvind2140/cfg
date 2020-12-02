@@ -119,7 +119,7 @@
   Plug 'vim-airline/vim-airline'
   "Plug 'pseewald/vim-anyfold'
   "Plug 'tpope/vim-eunuch'
-
+  "Plug 'ludovicchabant/vim-gutentags'
   " CODE FASTER
   Plug 'mattn/emmet-vim'
   Plug 'tpope/vim-commentary'
@@ -146,6 +146,60 @@
   Plug 'maxmellon/vim-jsx-pretty'
   call plug#end()
 
+
+" let g:gutentags_add_default_project_roots = 0
+" let g:gutentags_modules=['ctags', 'gtags_cscope']
+" let g:gutentags_project_root = ['.gutentag']
+" let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
+" " alt. put the ignore patterns below in ~/.ctags/ctagsrc.options as --tag-realitve yes \ --exlude=*.git \ --exlude=*.svg 
+" let g:gutentags_ctags_exclude = [
+"       \ '*.git', '*.svg', '*.hg',
+"       \ '*/tests/*',
+"       \ 'build',
+"       \ 'dist',
+"       \ '*sites/*/files/*',
+"       \ 'bin',
+"       \ 'node_modules',
+"       \ 'bower_components',
+"       \ 'cache',
+"       \ 'compiled',
+"       \ 'docs',
+"       \ 'example',
+"       \ 'bundle',
+"       \ 'vendor',
+"       \ '*.md',
+"       \ '*-lock.json',
+"       \ '*.lock',
+"       \ '*bundle*.js',
+"       \ '*build*.js',
+"       \ '.*rc*',
+"       \ '*.json',
+"       \ '*.min.*',
+"       \ '*.map',
+"       \ '*.bak',
+"       \ '*.zip',
+"       \ '*.pyc',
+"       \ '*.class',
+"       \ '*.sln',
+"       \ '*.Master',
+"       \ '*.csproj',
+"       \ '*.tmp',
+"       \ '*.csproj.user',
+"       \ '*.cache',
+"       \ '*.pdb',
+"       \ 'tags*',
+"       \ 'cscope.*',
+"       \ '*.css',
+"       \ '*.less',
+"       \ '*.scss',
+"       \ '*.exe', '*.dll',
+"       \ '*.mp3', '*.ogg', '*.flac',
+"       \ '*.swp', '*.swo',
+"       \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+"       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+"       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+"       \ ]
+ 
 " ### SYNTAX HIGHLIGHTING: RESCAN BUFFER FROM START
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear

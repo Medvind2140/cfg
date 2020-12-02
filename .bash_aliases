@@ -1,5 +1,5 @@
-complete -F __start_docker d
-complete -F __start_kubectl k
+# complete -F __start_docker d
+# complete -F __start_kubectl k
 
 # DOTFILES
   alias .as='nvim ~/.ssh/.bash_aliases'
@@ -85,6 +85,9 @@ alias is="cat /proc/device-tree/model"
   alias vlist='vv ~/Desktop/_sync/lists'
   alias vnote='vv ~/Desktop/_sync/notes'
   alias vwrite='vv ~/Desktop/_sync/write'
+ 
+# NET
+  alias lsp="sudo lsof -PiTCP -sTCP:LISTEN"
 
 # MANAGE
 alias rm='rm -i'
@@ -103,81 +106,92 @@ pb () { echo "$@" | pbcopy; }
   # - Past in vim...
 
 # DOCKER
-  alias d="docker"
-  alias dc="docker container"
-  alias dca="docker container attach"
-  alias doc="docker-compose"
-  alias doce="docker-compose exec app /bin/bash"
-  alias di="docker image"
-  alias dv="docker volume"
-  alias dn="docker network"
-  alias dncr="docker network create"
-  alias dnc="docker network connect"
-  alias dnd="docker network disconnect"
-  alias dni="docker network inspect"
-  alias dps="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
-  alias dm="docker-machine"
-  alias dip="di inspect --format='{{.ContainerConfig.ExposedPorts}}' $1"
-  alias dall="dil && dps && dvl && dnl"
-## DIL: LIST IMAGES BETTER
+alias d="docker"
+alias dc="docker container"
+alias dca="docker container attach"
+alias doc="docker-compose"
+alias doce="docker-compose exec app /bin/bash"
+alias di="docker image"
+alias dv="docker volume"
+alias dn="docker network"
+alias dncr="docker network create"
+alias dnc="docker network connect"
+alias dnd="docker network disconnect"
+alias dni="docker network inspect"
+alias dps="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
+alias dm="docker-machine"
+alias dip="di inspect --format='{{.ContainerConfig.ExposedPorts}}' $1"
+alias dall="dil && dps && dvl && dnl"
+
+### DIL: LIST IMAGES BETTER
 dil() {
   docker image ls | awk '{printf "%-13s %-7s %-10s %s\n", $3, $7, $2, "| " $1}' | sed 1d
 }
 
-## DIR: RUN IMAGE
+### DIR: RUN IMAGE
 dir() {
   local cid
   cid=$(docker images -a | sed 1d | fzf -q "$1" | awk '{print $1}')
   [ -n "$cid" ] && docker run --detach "$cid"
 }
-## DIRM: REMOVE IMAGES
+### DIRM: REMOVE IMAGES
 dirm() {
   docker images | sed 1d | fzf -m | awk '{print $3}' | xargs docker rmi -f
 }
 
-## DVL: LIST VOLUMES
-dvl() {
-  docker volume ls
-}
-
-## DVlC: LIST VOLUMES BELONGING TO WHICH CONTAINERS
-
-## DVRM: REMOVE VOLUMES
+### DVRM: REMOVE VOLUMES
 dvrm() {
   docker volume ls | sed 1d | fzf -m | awk '{print $2}' | xargs docker volume rm
 }
 
-## DNL: LIST NETWORKS
-dnl() {
-  docker network ls
-}
-
-## DNRM: REMOVE NETWORKS
+### DNRM: REMOVE NETWORKS
 dnrm() {
   docker network ls | sed 1d | fzf -m | awk '{print $1}' | xargs docker network rm
 }
 
-## DS: DOCKER STATS
+### DS: DOCKER STATS
 ds() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker stats
 }
 
-## DCS: START CONTAINERS
+### DCS: START CONTAINERS
 dcs() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container start
 } 
-## DCST: STOP RUNNING CONTAINERS
+### DCST: STOP RUNNING CONTAINERS
 dcst() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop
 }
-## DCRM: REMOVE STOPPED CONTAINERS
+### DCRM: REMOVE STOPPED CONTAINERS
 function dcrm() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container rm
 }
 
-## DCSR: STOP RUNNING CONTAINERS AND REMOVE THEM
+### DCSR: STOP RUNNING CONTAINERS AND REMOVE THEM
 dcsr() {
   docker ps -a | sed 1d | fzf -m | awk '{print $1}' | xargs docker container stop | xargs docker container rm
+}
+
+### DOCKER LOCAL REGISTRY
+alias dri="fdri"
+fdri(){
+  curl -u $DOCKLOGIN --request GET $DOCKREG/v2/_catalog
+}
+alias drit="fdrit"
+fdrit(){
+  curl -u $DOCKLOGIN --request GET $DOCKREG/v2/"$1"/tags/list
+}
+alias drpull="fdrpull"
+fdrpull(){
+  docker pull $DOCKREG/"$1"
+}
+alias drpush="fdrpush"
+fdrpush(){
+  docker push $DOCKREG/"$1"
+}
+alias drtag="fdrtag"
+fdrtag(){
+  docker tag "$1" $DOCKREG/"$2"
 }
 
 # CODE
@@ -201,7 +215,7 @@ dcsr() {
   alias gs='git status'
   alias gl='git log'
   alias gbl='git branch -l'
-  alias gb='git checkout $(git branch | fzf) | ls'
+  alias gb='git checkout $(git branch --sort=-committerdate | fzf)'
   alias gcb='git checkout -b'
   alias gadd='git add .'
   alias gcom='git add . && git commit -m'
@@ -209,7 +223,7 @@ dcsr() {
   alias grm='rm .gitignore && rm -rf .git'
 
 # SSH
-  # list keys
+# list keys
   alias vs='vv ~/.ssh'
   # View signatures of remote hosts
   alias ssk='ssh-keygen -lv -f ~/.ssh/known_hosts | less'
@@ -253,26 +267,25 @@ dcsr() {
   alias up="bin/upload.sh"
 
 # KUBERNETES
-  alias h="helm"
-  alias m="minikube"
-  alias k="kubectl"
-  alias ka="kubectl api-resources"
-  alias kc="kubectl config"
-  alias kcc="kubectl config current-context"
-  alias kcg="kubectl config get-contexts"
-  alias kcu="kubectl config use-context"
-  alias kcv="kubectl config view" 
-  alias kga="kubectl get all"
-  alias kgd="kubectl get deploy"
-  alias kgi="kubectl get ing"
-  alias kgn="kubectl get no"
-  # get namespaces
-  alias kgns="kubectl get ns"
-  alias kgp="kubectl get pod"
-  alias kgs="kubectl get svc"
+alias h="helm"
+alias m="minikube"
+alias k="kubectl"
+alias ka="kubectl api-resources"
+alias kc="kubectl config"
+alias kcc="kubectl config current-context"
+alias kcg="kubectl config get-contexts"
+alias kcu="kubectl config use-context"
+alias kcv="kubectl config view" 
+alias kga="kubectl get all"
+alias kgd="kubectl get deploy"
+alias kgi="kubectl get ing"
+alias kgn="kubectl get no"
+### get namespaces
+alias kgns="kubectl get ns"
+alias kgp="kubectl get pod"
+alias kgs="kubectl get svc"
   alias ki="kubectl cluster-info"
-
-## kgnsp: GET NAMESPACES PODS
+### kgnsp: GET NAMESPACES PODS
 kgnsp() {
   kgns | sed 1d | fzf -m | awk '{print $1}' | kubectl --namespace $1 get pods
 } 
@@ -376,9 +389,38 @@ fl () {
   # }
 
 
-
-
 # LOGS
  alias l='lnav'
 
-
+alias passenv="fpassenv"
+fpassenv(){
+  # export $1=$( pass show "$2");
+  tmux setenv $1 $(pass show "$2")
+  # eval "export $(tmux setenv $1 $2)";
+}
+alias passdock="fpassdock"
+fpassdock(){
+  passenv DOCKREG dockreg;
+  passenv DOCKLOGIN docklogin;
+  bl='\033[0;34m'
+  yl='\033[0;33m'
+  nc='\033[0m'
+  echo -e "${bl}LOCAL DOCKER REGISTRY READY${nc}"
+  echo "Open new bash-session and use these commands..."
+  echo "---------------------------------------------------"
+  echo -e "${yl}dri${nc} = list docker images"
+  echo -e "${yl}drit <image>${nc} = list docker image's tag"
+  echo -e "${yl}drpull <image:tag>${nc} = pull image:tag"
+  echo -e "${yl}drtag <image1> <image2:tag>${nc} = tag existing image"
+  echo -e "${yl}drpush <image:tag>${nc} = push image:tag"
+}
+alias lockdock="flockdock"
+flockdock(){
+  tmux setenv -r DOCKREG;
+  tmux setenv -r DOCKLOGIN;
+  unset DOCKREG;
+  unset DOCKLOGIN;
+  echo -e "\033[0;31mLOCAL DOCKER REGISTRY LOCKED\033[0m";
+  echo $DOCKREG;
+  echo $DOCKLOGIN;
+}

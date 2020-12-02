@@ -18,6 +18,9 @@ if [ -f ~/.profile ]; then
   . ~/.profile
 fi
 
+# PREVENT BREW ANALYTICS
+HOMEBREW_NO_ANALYTICS=1
+
 # PREVENT COMMAND LOGGING IN FILE
 unset HISTFILE
 
